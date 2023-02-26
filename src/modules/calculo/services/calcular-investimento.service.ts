@@ -1,0 +1,59 @@
+import { Injectable } from '@nestjs/common';
+
+import { InvestmentoParametrosDTO } from '../dtos/investmento-parametros.dto';
+import { PeriodicidadeEnum } from '../enums/periodicidade.enum';
+import { calcularDiasUtil } from '../utils/calcular-dias.util';
+import { CalcularValorImpostoRendaService } from './calcular-valor-imposto-renda.service';
+import { CalcularRentabilidadeService } from './calcular-rentabilidade.service';
+import { CalcularValorIofService } from './calcular-valor-iof.service';
+
+@Injectable()
+export class CalcularInvestimentoService {
+  constructor(
+    private calcularRentabilidadeService: CalcularRentabilidadeService,
+    private calcularValorImpostoRendaService: CalcularValorImpostoRendaService,
+    private calcularValorIofService: CalcularValorIofService,
+  ) {}
+
+  public execute(
+    principal: number,
+    tempoInvestimento: number,
+    periodicidade: PeriodicidadeEnum,
+    taxaDecimal: number,
+    incideIR: boolean,
+  ): InvestmentoParametrosDTO {
+    const rentabilidadeBruta = this.calcularRentabilidadeService.execute(
+      principal,
+      taxaDecimal,
+      tempoInvestimento,
+    );
+
+    const dias = calcularDiasUtil(tempoInvestimento, periodicidade);
+
+    const valorIof = this.calcularValorIofService.execute(
+      rentabilidadeBruta,
+      dias,
+    );
+
+    const valorImpostoRenda = incideIR
+      ? Number(
+          this.calcularValorImpostoRendaService
+            .execute(rentabilidadeBruta - valorIof, dias)
+            .toFixed(2),
+        )
+      : 0;
+
+    const rentabilidadeLiquida =
+      rentabilidadeBruta - valorIof - valorImpostoRenda;
+
+    const investimentoResponseDTO: InvestmentoParametrosDTO = Object.assign({
+      rentabilidadeBruta,
+      valorImpostoRenda,
+      valorIof,
+      rentabilidadeLiquida,
+      montante: principal + rentabilidadeLiquida,
+    });
+
+    return investimentoResponseDTO;
+  }
+}

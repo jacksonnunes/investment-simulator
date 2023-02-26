@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 
-import { CalculateInvestmentWithIncomeTaxService } from './services/calculate-investment-with-income-tax.service';
+import { CalcularInvestimentoService } from './services/calcular-investimento.service';
 
 @Module({
-  providers: [CalculateInvestmentWithIncomeTaxService],
+  providers: [CalcularInvestimentoService],
 })
 export class CalculoModule {}
