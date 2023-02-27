@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
+import { CalculosController } from './infra/controllers/calculos.controller';
 
-import { CalcularInvestimentoService } from './services/calcular-investimento.service';
+import { InvestimentoService } from './services/investimento.service';
 
 @Module({
-  providers: [CalcularInvestimentoService],
+  providers: [InvestimentoService],
+  controllers: [CalculosController],
 })
 export class CalculoModule {}
