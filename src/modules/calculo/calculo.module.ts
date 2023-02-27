@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard } from '@nestjs/throttler/dist/throttler.guard';
 
 import { ClientModule } from 'src/client/client.module';
 import { InvestimentoService } from './services/investimento.service';
@@ -18,6 +20,10 @@ import { CalculosController } from './infra/controllers/calculos.controller';
     CalcularValorImpostoRendaService,
     CalcularValorIofService,
     InvestimentoService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
   controllers: [CalculosController],
 })
