@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { InvestmentoParametrosDTO } from '../dtos/investmento-parametros.dto';
+import { InvestimentoParametrosDTO } from '../dtos/investimento-parametros.dto';
 import { PeriodicidadeEnum } from '../enums/periodicidade.enum';
 import { calcularDiasUtil } from '../utils/calcular-dias.util';
 import { CalcularValorImpostoRendaService } from './calcular-valor-imposto-renda.service';
@@ -21,7 +21,7 @@ export class CalcularInvestimentoService {
     periodicidade: PeriodicidadeEnum,
     taxaDecimal: number,
     incideIR: boolean,
-  ): InvestmentoParametrosDTO {
+  ): InvestimentoParametrosDTO {
     const rentabilidadeBruta = this.calcularRentabilidadeService.execute(
       principal,
       taxaDecimal,
@@ -47,7 +47,7 @@ export class CalcularInvestimentoService {
       (rentabilidadeBruta - valorIof - valorImpostoRenda).toFixed(2),
     );
 
-    const investimentoResponseDTO: InvestmentoParametrosDTO = Object.assign({
+    const investimentoResponseDTO: InvestimentoParametrosDTO = Object.assign({
       rentabilidadeBruta,
       valorImpostoRenda,
       valorIof,

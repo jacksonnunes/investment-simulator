@@ -1,4 +1,5 @@
 import { TaxaReferenciaEnum } from '../enums/taxa-referencia.enum';
+import { separadorDecimalFormatUtil } from './separador-decimal-format.util';
 
 export const rentabilidadeFormatUtil = (
   taxaReferencia: TaxaReferenciaEnum,
@@ -13,10 +14,14 @@ export const rentabilidadeFormatUtil = (
   } else if (taxaReferencia === TaxaReferenciaEnum.IPCA) {
     return `${taxaReferencia.valueOf()}${
       percentualAtualizacao > 0
-        ? ' + ' + percentualAtualizacao.toFixed(2) + '%'
+        ? ' + ' +
+          separadorDecimalFormatUtil(percentualAtualizacao.toFixed(2)) +
+          '% a.a.'
         : ''
     }`;
   } else {
-    return `${percentualAtualizacao.toFixed(2)}% a.a.`;
+    return `${separadorDecimalFormatUtil(
+      percentualAtualizacao.toFixed(2),
+    )}% a.a.`;
   }
 };

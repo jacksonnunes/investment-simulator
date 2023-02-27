@@ -62,7 +62,7 @@ describe('Calculate investments', () => {
       .mockImplementation(() => taxList);
   });
 
-  it('should return calculated investment', async () => {
+  it('deve retornar investimento calculado pelo índice CDI', async () => {
     const investimentoRequestDTO: InvestimentoRequestDTO = {
       modalidade: ModalidadeEnum.CDB_RDB,
       principal: 1000,
@@ -83,6 +83,64 @@ describe('Calculate investments', () => {
         valorIof: 0,
         rentabilidadeLiquida: 133.99,
         montante: 1133.99,
+      },
+    };
+
+    await expect(
+      calculateInvestmentsService.execute(investimentoRequestDTO),
+    ).resolves.toEqual(investimentoResponseDTO);
+  });
+
+  it('deve retornar investimento calculado pelo índice IPCA', async () => {
+    const investimentoRequestDTO: InvestimentoRequestDTO = {
+      modalidade: ModalidadeEnum.TESOURO_DIRETO,
+      principal: 1000,
+      tempo: 8,
+      periodicidade: PeriodicidadeEnum.MESES,
+      taxaReferencia: TaxaReferenciaEnum.IPCA,
+      percentualAtualizacao: 6,
+    };
+
+    const investimentoResponseDTO: InvestimentoResponseDTO = {
+      modalidade: 'Tesouro Direto',
+      rentabilidade: 'IPCA + 6,00% a.a.',
+      tempoInvestimento: '8 meses',
+      valorInvestido: 1000,
+      parametros: {
+        rentabilidadeBruta: 72.05,
+        valorImpostoRenda: 14.41,
+        valorIof: 0,
+        rentabilidadeLiquida: 57.64,
+        montante: 1057.64,
+      },
+    };
+
+    await expect(
+      calculateInvestmentsService.execute(investimentoRequestDTO),
+    ).resolves.toEqual(investimentoResponseDTO);
+  });
+
+  it('deve retornar investimento calculado por taxa fixa', async () => {
+    const investimentoRequestDTO: InvestimentoRequestDTO = {
+      modalidade: ModalidadeEnum.LCI_LCA,
+      principal: 1000,
+      tempo: 20,
+      periodicidade: PeriodicidadeEnum.DIAS,
+      taxaReferencia: TaxaReferenciaEnum.TAXA_FIXA,
+      percentualAtualizacao: 14,
+    };
+
+    const investimentoResponseDTO: InvestimentoResponseDTO = {
+      modalidade: 'LCI e LCA',
+      rentabilidade: '14,00% a.a.',
+      tempoInvestimento: '20 dias',
+      valorInvestido: 1000,
+      parametros: {
+        rentabilidadeBruta: 7.31,
+        valorImpostoRenda: 0,
+        valorIof: 2.41,
+        rentabilidadeLiquida: 4.9,
+        montante: 1004.9,
       },
     };
 
