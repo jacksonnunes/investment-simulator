@@ -7,7 +7,7 @@ export const rentabilidadeFormatUtil = (
   if (taxaReferencia === TaxaReferenciaEnum.CDI) {
     return `${
       percentualAtualizacao !== 100
-        ? percentualAtualizacao.toFixed(2) + '% '
+        ? percentualAtualizacao.toFixed(2) + '% do '
         : ''
     }${taxaReferencia.valueOf()}`;
   } else if (taxaReferencia === TaxaReferenciaEnum.IPCA) {
@@ -17,6 +17,6 @@ export const rentabilidadeFormatUtil = (
         : ''
     }`;
   } else {
-    return `${percentualAtualizacao.toFixed(2)}%`;
+    return `${percentualAtualizacao.toFixed(2)}% a.a.`;
   }
 };

@@ -43,8 +43,9 @@ export class CalcularInvestimentoService {
         )
       : 0;
 
-    const rentabilidadeLiquida =
-      rentabilidadeBruta - valorIof - valorImpostoRenda;
+    const rentabilidadeLiquida = Number(
+      (rentabilidadeBruta - valorIof - valorImpostoRenda).toFixed(2),
+    );
 
     const investimentoResponseDTO: InvestmentoParametrosDTO = Object.assign({
       rentabilidadeBruta,

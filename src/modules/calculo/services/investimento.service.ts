@@ -70,15 +70,16 @@ export class InvestimentoService {
       taxaAtualizacao = percentualAtualizacao;
     }
 
+    const taxaAtualizacaoDecimal = taxaDecimalFormatUtil(taxaAtualizacao);
+
     const taxaEquivalente =
       periodicidade === PeriodicidadeEnum.ANOS
-        ? taxaAtualizacao
+        ? taxaAtualizacaoDecimal
         : this.calculateTaxEquivalentService.execute(
-            taxaAtualizacao,
+            taxaAtualizacaoDecimal,
             PeriodicidadeEnum.ANOS,
             periodicidade,
           );
-    const taxaEquivalenteDecimal = taxaDecimalFormatUtil(taxaEquivalente);
 
     const incideIR =
       modalidade === ModalidadeEnum.TESOURO_DIRETO ||
@@ -89,7 +90,7 @@ export class InvestimentoService {
         principal,
         tempo,
         periodicidade,
-        taxaEquivalenteDecimal,
+        taxaEquivalente,
         incideIR,
       );
 

@@ -2,8 +2,8 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { firstValueFrom } from 'rxjs';
-import { AppError } from 'src/errors/app.error';
 
+import { AppError } from 'src/errors/app.error';
 import { TaxDTO } from './dtos/tax.dto';
 
 @Injectable()
