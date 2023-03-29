@@ -55,7 +55,8 @@ export class InvestimentoService {
       );
 
       taxaAtualizacao =
-        percentualAtualizacaoDecimal * listaTaxaCdiDTO.data.at(-1).valor;
+        percentualAtualizacaoDecimal *
+        listaTaxaCdiDTO.data[listaTaxaCdiDTO.data.length - 1].valor;
     } else if (taxaReferencia === TaxaReferenciaEnum.IPCA) {
       const tresMesesAtras = dateFormatUtil(sub(new Date(), { months: 3 }));
       const hoje = dateFormatUtil(new Date());
