@@ -66,7 +66,8 @@ export class InvestimentoService {
       );
 
       taxaAtualizacao =
-        listaTaxaIpcaDTO.data.at(-1).valor + percentualAtualizacao;
+        listaTaxaIpcaDTO.data[listaTaxaIpcaDTO.data.length - 1].valor +
+        percentualAtualizacao;
     } else {
       taxaAtualizacao = percentualAtualizacao;
     }
